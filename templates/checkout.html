@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Checkout - Fashion Haven{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center">Checkout</h2>
+  {% if cart_items %}
+    <table class="table table-dark mt-4">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart_items %}
+        <tr>
+          <td>{{ item.product_name }}</td>
+          <td>$ {{ item.price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h3 class="text-center mt-4">Total: ${{ total_price }}</h3>
+    <div class="text-center mt-4">
+      <form action="{{ url_for('checkout') }}" method="POST">
+    <button type="submit" class="btn btn-custom">Confirm Order</button>
+</form>
+
+    </div>
+  {% else %}
+    <p class="text-center mt-4">Your cart is empty. <a href="{{ url_for('index') }}">Continue Shopping</a></p>
+  {% endif %}
+</div>
+{% endblock %}

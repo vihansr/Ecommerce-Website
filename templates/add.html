@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Add Product - Fashion Haven{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center">Add a New Product</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">Product Name</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select class="form-select" id="category" name="category" required>
+            <option value="T-Shirts">T-Shirts</option>
+            <option value="Sweatshirts">Sweatshirts</option>
+            <option value="Hoodies">Hoodies</option>
+            <option value="Jeans">Jeans</option>
+            <option value="Pants">Pants</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price ($)</label>
+          <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+        </div>
+        <div class="mb-3">
+          <label for="image_url" class="form-label">Image URL</label>
+          <input type="url" class="form-control" id="image_url" name="image_url" required>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-custom w-100">Add Product</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
