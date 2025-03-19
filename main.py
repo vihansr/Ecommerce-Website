@@ -163,7 +163,7 @@ def checkout():
         )
         return redirect(session.url, code=303)
 
-    return render_template("checkout.html", cart_items=cart_items, total_price=total_price)
+    return render_template("checkout.html", cart_items=cart_items, total_price=round(total_price, 2))
 
 @app.route("/success")
 def success():
