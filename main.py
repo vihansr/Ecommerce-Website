@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,7 +28,7 @@ login_manager.login_view = "login"
 
 class User(db.Model, UserMixin):
     id = db.Column(Integer, primary_key=True)
-    username = db.Column(String, nullable=False)
+    username = db.Column(String, unique=True, nullable=False)
     password_hash = db.Column(String, nullable=False)
     cart = relationship("Cart", back_populates="user")
 
@@ -86,10 +86,6 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash("Username already exists. Please choose a different one.", "danger")
-            return redirect(url_for('register'))
         new_user = User(username=username,
                         password_hash=hashed_password)
         db.session.add(new_user)
@@ -106,12 +102,6 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
             return redirect(url_for("index"))
-        elif not user:
-            flash("Username not found. Please register first.", "danger")
-            return redirect(url_for('login'))
-        elif not check_password_hash(user.password_hash, password):
-            flash("Incorrect password. Please try again.", "danger")
-            return redirect(url_for('login'))
     return render_template("login.html")
 
 @app.route("/logout")
